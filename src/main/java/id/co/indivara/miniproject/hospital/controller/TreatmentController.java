@@ -1,5 +1,6 @@
 package id.co.indivara.miniproject.hospital.controller;
 
+import id.co.indivara.miniproject.hospital.dto.response.ResponseTreatmentList;
 import id.co.indivara.miniproject.hospital.entity.Treatment;
 import id.co.indivara.miniproject.hospital.service.TreatmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,8 @@ public class TreatmentController {
     }
 
     @GetMapping("/treatment/all")
-    public List<Treatment> findAllTreatment(){
-        return treatmentService.findAll();
+    public List<ResponseTreatmentList> viewTreatmentList(){
+        return treatmentService.viewTreatmentList();
     }
 
     @PatchMapping("/treatment/{id}")

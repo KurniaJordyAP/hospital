@@ -20,12 +20,15 @@ public class MedicalTreatment {
     private Long medicalTreatmentId;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "medical_record_id")
     private MedicalRecord medicalRecord;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "treatment_id")
     private Treatment treatment;
+
+    @Column(name = "note")
+    private String note;
 }

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -30,12 +31,11 @@ public class Doctor {
     @Column(name = "doctor_name")
     private String doctorName;
     @Column(name = "date_of_birth")
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
     @Column(name = "nik")
     private String nik;
     @Column(name = "gender")
     private String gender;
-
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")

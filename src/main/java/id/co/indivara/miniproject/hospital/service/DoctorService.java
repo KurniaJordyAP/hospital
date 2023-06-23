@@ -1,11 +1,15 @@
 package id.co.indivara.miniproject.hospital.service;
 
+import id.co.indivara.miniproject.hospital.dto.response.ResponseDoctorList;
 import id.co.indivara.miniproject.hospital.entity.Address;
 import id.co.indivara.miniproject.hospital.entity.Doctor;
 import id.co.indivara.miniproject.hospital.entity.Specialization;
 import id.co.indivara.miniproject.hospital.repo.DoctorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +27,13 @@ public class DoctorService extends GenericService<Doctor>{
         doctor.setAddress(address);
         System.out.println(doctor);
         return doctorRepository.save(doctor);
+    }
+
+    public List<ResponseDoctorList> viewDoctorList(){
+        List<Doctor> doctors = doctorRepository.viewDoctorList();
+        List<ResponseDoctorList> responseDoctorLists = doctors.stream().map(doctor -> new ResponseDoctorList(doctor.getDoctorId(), doctor.getRegistrationId(), doctor.getDoctorName(), doctor.getSpecialization(), doctor.getGender())
+        ).collect(Collectors.toList());
+        return responseDoctorLists;
     }
 }
 

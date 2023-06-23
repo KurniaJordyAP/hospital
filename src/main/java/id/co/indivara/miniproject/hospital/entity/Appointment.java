@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.sql.Time;
+
 
 
 @Entity
@@ -25,16 +25,20 @@ public class Appointment {
     @OneToOne(mappedBy = "appointment",cascade = CascadeType.ALL)
     private MedicalRecord medicalRecord;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "patient_id")
     private Patient patient;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
 
     @Column(name = "date")
     private Date date;
+
+    @Column(name = "symptoms")
+    private String symptoms;
+
     @Column(name = "start_time")
     private Long startTime;
     @Column(name = "end_time")
