@@ -14,7 +14,7 @@ public class AppointmentController {
     @Autowired
     private AppointmentService appointmentService;
 
-    @PostMapping("/appointment")
+    @PostMapping("/appointment/save")
     Appointment saveAppointment(@RequestBody Appointment appointment){
         return appointmentService.save(appointment);
     }

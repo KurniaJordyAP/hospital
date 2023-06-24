@@ -1,12 +1,16 @@
 package id.co.indivara.miniproject.hospital.service;
 
 
+import id.co.indivara.miniproject.hospital.dto.response.ResponsePatientMedicalRecord;
 import id.co.indivara.miniproject.hospital.entity.MedicalRecord;
 import id.co.indivara.miniproject.hospital.entity.MedicalTreatment;
 import id.co.indivara.miniproject.hospital.entity.Treatment;
 import id.co.indivara.miniproject.hospital.repo.MedicalTreatmentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +26,21 @@ public class MedicalTreatmentService extends GenericService<MedicalTreatment>{
         medicalTreatment.setMedicalRecord(medicalRecord);
         medicalTreatment.setTreatment(treatment);
         return medicalTreatmentRepository.save(medicalTreatment);
+    }
+
+    public List<ResponsePatientMedicalRecord> viewPatientMedicalRecord(Long patientId){
+        List<MedicalTreatment> medicalTreatments = medicalTreatmentRepository.viewPatientMedicalRecord(patientId);
+        List<ResponsePatientMedicalRecord> responsePatientMedicalRecords = medicalTreatments.stream().map(
+                medicalTreatment -> new ResponsePatientMedicalRecord(
+                        medicalTreatment.getMedicalRecord().getMedicalRecordId(),
+                        medicalTreatment.getMedicalRecord().getAppointment().getDoctor().getDoctorName(),
+                        medicalTreatment.getMedicalRecord().getAppointment().getPatient().getPatientName(),
+                        medicalTreatment.getMedicalRecord().getAppointment().getSymptoms(),
+                        medicalTreatment.getTreatment().getTreatmentName(),
+                        medicalTreatment.getNote()
+                )
+        ).collect(Collectors.toList());
+        return responsePatientMedicalRecords;
     }
 
 }
