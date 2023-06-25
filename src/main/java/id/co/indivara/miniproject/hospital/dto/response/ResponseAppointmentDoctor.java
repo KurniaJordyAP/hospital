@@ -12,6 +12,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ResponseAppointmentDoctor {
+    @JsonProperty("appointment_id")
     private Long appointmentId;
     @JsonProperty("date")
     private Date date;

@@ -23,4 +23,5 @@ public class MedicalTreatmentController {
         return medicalTreatmentService.viewPatientMedicalRecord(patientId);
     }
 
+
 }

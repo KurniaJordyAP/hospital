@@ -33,6 +33,7 @@ public class MedicalTreatmentService extends GenericService<MedicalTreatment>{
         List<ResponsePatientMedicalRecord> responsePatientMedicalRecords = medicalTreatments.stream().map(
                 medicalTreatment -> new ResponsePatientMedicalRecord(
                         medicalTreatment.getMedicalRecord().getMedicalRecordId(),
+                        medicalTreatment.getMedicalRecord().getAppointment().getDate(),
                         medicalTreatment.getMedicalRecord().getAppointment().getDoctor().getDoctorName(),
                         medicalTreatment.getMedicalRecord().getAppointment().getPatient().getPatientName(),
                         medicalTreatment.getMedicalRecord().getAppointment().getSymptoms(),

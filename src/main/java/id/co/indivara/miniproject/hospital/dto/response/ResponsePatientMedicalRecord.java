@@ -5,12 +5,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ResponsePatientMedicalRecord {
     @JsonProperty("medical_record_id")
     private Long medicalRecordId;
+    @JsonProperty("date")
+    private Date date;
     @JsonProperty("doctor_name")
     private String doctorName;
     @JsonProperty("patient_name")
