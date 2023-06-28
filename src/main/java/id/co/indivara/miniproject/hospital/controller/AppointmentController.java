@@ -4,6 +4,8 @@ import id.co.indivara.miniproject.hospital.dto.response.ResponseAppointmentDocto
 import id.co.indivara.miniproject.hospital.entity.Appointment;
 import id.co.indivara.miniproject.hospital.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
@@ -15,12 +17,17 @@ public class AppointmentController {
     private AppointmentService appointmentService;
 
     @PostMapping("/appointment/save")
-    Appointment saveAppointment(@RequestBody Appointment appointment){
-        return appointmentService.save(appointment);
+    ResponseEntity<Appointment> saveAppointment(@RequestBody Appointment appointment){
+        return new ResponseEntity<>(appointmentService.save(appointment), HttpStatus.OK);
     }
 
     @GetMapping("/appointment/{doctorId}/{date}")
-    public List<ResponseAppointmentDoctor> getAppointmentByDoctorId(@PathVariable("doctorId") Long doctorId, @PathVariable("date") Date date){
-        return appointmentService.viewAppointmentByDoctorId(doctorId,date);
+    public ResponseEntity<List<ResponseAppointmentDoctor>> getAppointmentByDoctorId(@PathVariable("doctorId") Long doctorId, @PathVariable("date") String date){
+        return new ResponseEntity<>(appointmentService.findByDoctorDoctorIdAndDate(doctorId,date), HttpStatus.OK);
+    }
+
+    @PatchMapping("/appointment/update/{id}")
+    public ResponseEntity<Appointment> updateAppointment(@RequestBody Appointment appointment,@PathVariable("id") Long appointmentId){
+        return new ResponseEntity<>(appointmentService.update(appointmentId, appointment), HttpStatus.OK);
     }
 }

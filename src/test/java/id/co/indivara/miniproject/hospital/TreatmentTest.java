@@ -103,12 +103,12 @@ public class TreatmentTest {
 
     @Test
     public void updateTreatmentTestMock() throws Exception{
-        Treatment treatment = treatmentService.findById(4L);
+        Treatment treatment = treatmentService.findById(5L);
         treatment.setTreatmentCode("T002");
         treatment.setTreatmentName("Test Name2");
         treatment.setDescription("Test Description2");
         mockMvc.perform(MockMvcRequestBuilders
-               .patch("/treatment/"+4)
+               .patch("/treatment/"+5)
                .header("Authorization","Bearer "+jwt)
                .accept(MediaType.APPLICATION_JSON)
                .contentType(MediaType.APPLICATION_JSON)
@@ -126,7 +126,7 @@ public class TreatmentTest {
     @Test
     public void deleteTreatmentTestMock() throws Exception{
         mockMvc.perform(MockMvcRequestBuilders
-                .delete("/treatment/delete/"+4)
+                .delete("/treatment/delete/"+5)
                 .header("Authorization", "Bearer " +jwt)
                 .accept(MediaType.APPLICATION_JSON)
         ).andDo(print())

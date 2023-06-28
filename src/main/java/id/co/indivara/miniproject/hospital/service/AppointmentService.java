@@ -34,9 +34,16 @@ public class AppointmentService extends GenericService<Appointment> {
         return appointmentRepository.save(appointment);
     }
 
-    public List<ResponseAppointmentDoctor> viewAppointmentByDoctorId(Long doctorId, Date date) {
-        List<Appointment> appointments = appointmentRepository.viewAppointmentByDoctorId(doctorId,date);
-        List<ResponseAppointmentDoctor> responseAppointmentDoctors = appointments.stream().map(appointment -> new ResponseAppointmentDoctor(appointment.getAppointmentId(), appointment.getDate(), appointment.getPatient().getPatientName(), appointment.getSymptoms(),appointment.getPatient().getBloodType())
+//    public List<ResponseAppointmentDoctor> viewAppointmentByDoctorId(Long doctorId, String date) {
+//        List<Appointment> appointments = appointmentRepository.viewAppointmentByDoctorId(doctorId,date);
+//        List<ResponseAppointmentDoctor> responseAppointmentDoctors = appointments.stream().map(appointment -> new ResponseAppointmentDoctor(appointment.getAppointmentId(), appointment.getPatient().getPatientName(), appointment.getSymptoms(),appointment.getPatient().getBloodType(),appointment.getStartTime(),appointment.getEndTime())
+//        ).collect(Collectors.toList());
+//        return responseAppointmentDoctors;
+//    }
+
+    public List<ResponseAppointmentDoctor> findByDoctorDoctorIdAndDate(Long doctorId, String date){
+        List<Appointment> appointments = appointmentRepository.findByDoctorDoctorIdAndDate(doctorId,date);
+        List<ResponseAppointmentDoctor> responseAppointmentDoctors = appointments.stream().map(appointment -> new ResponseAppointmentDoctor(appointment.getAppointmentId(), appointment.getPatient().getPatientName(), appointment.getSymptoms(),appointment.getPatient().getBloodType(),appointment.getStartTime(),appointment.getEndTime())
         ).collect(Collectors.toList());
         return responseAppointmentDoctors;
     }

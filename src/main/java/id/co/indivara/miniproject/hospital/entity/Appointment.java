@@ -6,8 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Date;
-
+import java.sql.Time;
 
 
 @Entity
@@ -34,16 +33,15 @@ public class Appointment {
     private Doctor doctor;
 
     @Column(name = "date")
-    private Date date;
+    private String date;
 
     @Column(name = "symptoms")
     private String symptoms;
 
     @Column(name = "start_time")
-    private Long startTime;
+    private Time startTime;
+
     @Column(name = "end_time")
-    private Long endTime;
-    @Column(name = "appointment_status")
-    private Boolean appointmentStatus;
+    private Time endTime;
 
 }

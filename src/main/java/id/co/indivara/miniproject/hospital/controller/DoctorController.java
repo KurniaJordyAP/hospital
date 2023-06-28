@@ -4,6 +4,8 @@ import id.co.indivara.miniproject.hospital.dto.response.ResponseDoctorList;
 import id.co.indivara.miniproject.hospital.entity.Doctor;
 import id.co.indivara.miniproject.hospital.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,29 +16,29 @@ public class DoctorController {
     private DoctorService doctorService;
 
     @PostMapping("/doctor/save")
-    public Doctor saveDoctor(@RequestBody Doctor doctor){
-        return doctorService.save(doctor);
+    public ResponseEntity<Doctor> saveDoctor(@RequestBody Doctor doctor){
+        return new ResponseEntity<>(doctorService.save(doctor), HttpStatus.OK);
     }
 
     @GetMapping("/doctor/all")
-    public List<ResponseDoctorList> viewDoctorList(){
-        return doctorService.viewDoctorList();
+    public ResponseEntity<List<ResponseDoctorList>> viewDoctorList(){
+        return new ResponseEntity<>(doctorService.viewDoctorList(), HttpStatus.OK);
     }
 
     @PatchMapping("/doctor/{id}")
-    public Doctor updateDoctor(@RequestBody Doctor doctor,@PathVariable("id") Long doctorId ){
-        return doctorService.update(doctorId,doctor);
+    public ResponseEntity<Doctor> updateDoctor(@RequestBody Doctor doctor,@PathVariable("id") Long doctorId ){
+        return new ResponseEntity<>(doctorService.update(doctorId,doctor), HttpStatus.OK);
     }
 
     @GetMapping("/doctor/{id}")
-    public Doctor findDoctor(@PathVariable("id") Long doctorId){
-        return doctorService.findById(doctorId);
+    public ResponseEntity<Doctor> findDoctor(@PathVariable("id") Long doctorId){
+        return new ResponseEntity<>(doctorService.findById(doctorId), HttpStatus.OK);
     }
 
     @DeleteMapping("/doctor/delete/{id}")
-    public String deleteDoctor(@PathVariable("id") Long doctorId){
+    public ResponseEntity<HttpStatus> deleteDoctor(@PathVariable("id") Long doctorId){
         doctorService.delete(doctorId);
-        return "Delete Sukses";
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }

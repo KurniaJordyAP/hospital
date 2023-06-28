@@ -4,6 +4,7 @@ package id.co.indivara.miniproject.hospital.service;
 import id.co.indivara.miniproject.hospital.dto.response.ResponsePatientMedicalRecord;
 import id.co.indivara.miniproject.hospital.entity.MedicalRecord;
 import id.co.indivara.miniproject.hospital.entity.MedicalTreatment;
+import id.co.indivara.miniproject.hospital.entity.Patient;
 import id.co.indivara.miniproject.hospital.entity.Treatment;
 import id.co.indivara.miniproject.hospital.repo.MedicalTreatmentRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +29,25 @@ public class MedicalTreatmentService extends GenericService<MedicalTreatment>{
         return medicalTreatmentRepository.save(medicalTreatment);
     }
 
-    public List<ResponsePatientMedicalRecord> viewPatientMedicalRecord(Long patientId){
-        List<MedicalTreatment> medicalTreatments = medicalTreatmentRepository.viewPatientMedicalRecord(patientId);
+    //JIKA MEMAKAI QUERY JPQL ATAU NATIVE
+//    public List<ResponsePatientMedicalRecord> viewPatientMedicalRecord1(Long patientId){
+//        List<MedicalTreatment> medicalTreatments = medicalTreatmentRepository.viewPatientMedicalRecord1(patientId);
+//        List<ResponsePatientMedicalRecord> responsePatientMedicalRecords = medicalTreatments.stream().map(
+//                medicalTreatment -> new ResponsePatientMedicalRecord(
+//                        medicalTreatment.getMedicalRecord().getMedicalRecordId(),
+//                        medicalTreatment.getMedicalRecord().getAppointment().getDate(),
+//                        medicalTreatment.getMedicalRecord().getAppointment().getDoctor().getDoctorName(),
+//                        medicalTreatment.getMedicalRecord().getAppointment().getPatient().getPatientName(),
+//                        medicalTreatment.getMedicalRecord().getAppointment().getSymptoms(),
+//                        medicalTreatment.getTreatment().getTreatmentName(),
+//                        medicalTreatment.getNote()
+//                )
+//        ).collect(Collectors.toList());
+//        return responsePatientMedicalRecords;
+//    }
+
+    public List<ResponsePatientMedicalRecord> findByMedicalRecordAppointmentPatientPatientId(Long patientId) {
+        List<MedicalTreatment> medicalTreatments = medicalTreatmentRepository.findByMedicalRecordAppointmentPatientPatientId(patientId);
         List<ResponsePatientMedicalRecord> responsePatientMedicalRecords = medicalTreatments.stream().map(
                 medicalTreatment -> new ResponsePatientMedicalRecord(
                         medicalTreatment.getMedicalRecord().getMedicalRecordId(),
@@ -43,5 +61,4 @@ public class MedicalTreatmentService extends GenericService<MedicalTreatment>{
         ).collect(Collectors.toList());
         return responsePatientMedicalRecords;
     }
-
 }

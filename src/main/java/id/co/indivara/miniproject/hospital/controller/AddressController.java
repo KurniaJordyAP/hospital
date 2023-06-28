@@ -3,6 +3,8 @@ package id.co.indivara.miniproject.hospital.controller;
 import id.co.indivara.miniproject.hospital.entity.Address;
 import id.co.indivara.miniproject.hospital.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,28 +15,28 @@ public class AddressController {
     private AddressService addressService;
 
     @PostMapping("/address/save")
-    public Address saveAddress(@RequestBody Address address){
-        return addressService.save(address);
+    public ResponseEntity<Address> saveAddress(@RequestBody Address address){
+        return new ResponseEntity<>(addressService.save(address), HttpStatus.OK);
     }
 
     @GetMapping("/address/all")
-    public List<Address> findAllAddress(){
-        return addressService.findAll();
+    public ResponseEntity<List<Address>> findAllAddress(){
+        return new ResponseEntity<>(addressService.findAll(), HttpStatus.OK);
     }
 
     @PatchMapping("/address/{id}")
-    public Address updateAddress(@RequestBody Address address,@PathVariable("id") Long addressId ){
-        return addressService.update(addressId,address);
+    public ResponseEntity<Address> updateAddress(@RequestBody Address address,@PathVariable("id") Long addressId ){
+        return new ResponseEntity<>(addressService.update(addressId,address), HttpStatus.OK) ;
     }
 
     @GetMapping("/address/{id}")
-    public Address findAddress(@PathVariable("id") Long addressId){
-        return addressService.findById(addressId);
+    public ResponseEntity<Address> findAddress(@PathVariable("id") Long addressId){
+        return new ResponseEntity<>(addressService.findById(addressId), HttpStatus.OK);
     }
 
     @DeleteMapping("/address/delete/{id}")
-    public String deleteAddress(@PathVariable("id") Long addressId){
+    public ResponseEntity<HttpStatus> deleteAddress(@PathVariable("id") Long addressId){
         addressService.delete(addressId);
-        return "Delete Sukses";
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

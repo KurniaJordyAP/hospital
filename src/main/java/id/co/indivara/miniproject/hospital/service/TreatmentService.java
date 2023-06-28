@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class TreatmentService extends GenericService<Treatment>{
     private final TreatmentRepository treatmentRepository;
     public List<ResponseTreatmentList> viewTreatmentList(){
-        List<Treatment> treatments = treatmentRepository.viewTreatmentList();
+        List<Treatment> treatments = treatmentRepository.findAll();
         List<ResponseTreatmentList> responseTreatmentList = treatments.stream().map(treatment -> new ResponseTreatmentList(treatment.getTreatmentId(), treatment.getTreatmentName())
         ).collect(Collectors.toList());
         return responseTreatmentList;

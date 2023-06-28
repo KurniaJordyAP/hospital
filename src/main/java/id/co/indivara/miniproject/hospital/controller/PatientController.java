@@ -5,6 +5,8 @@ import id.co.indivara.miniproject.hospital.dto.response.ResponsePatientList;
 import id.co.indivara.miniproject.hospital.entity.Patient;
 import id.co.indivara.miniproject.hospital.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,29 +17,29 @@ public class PatientController {
     private PatientService patientService;
 
     @PostMapping("/patient/save")
-    public Patient savePatient(@RequestBody Patient patient){
-        return patientService.save(patient);
+    public ResponseEntity<Patient> savePatient(@RequestBody Patient patient){
+        return new ResponseEntity<>(patientService.save(patient), HttpStatus.OK);
     }
 
     @GetMapping("/patient/all")
-    public List<ResponsePatientList> viewPatientList(){
-        return patientService.viewPatientList();
+    public ResponseEntity<List<ResponsePatientList>> viewPatientList(){
+        return new ResponseEntity<>(patientService.viewPatientList(), HttpStatus.OK);
     }
 
     @PatchMapping("/patient/{id}")
-    public Patient updatePatient(@RequestBody Patient patient,@PathVariable("id") Long patientId ){
-        return patientService.update(patientId,patient);
+    public ResponseEntity<Patient> updatePatient(@RequestBody Patient patient,@PathVariable("id") Long patientId ){
+        return new ResponseEntity<>(patientService.update(patientId,patient), HttpStatus.OK);
     }
 
     @GetMapping("/patient/{id}")
-    public Patient findPatient(@PathVariable("id") Long patientId){
-        return patientService.findById(patientId);
+    public ResponseEntity<Patient> findPatient(@PathVariable("id") Long patientId){
+        return new ResponseEntity<>(patientService.findById(patientId), HttpStatus.OK);
     }
 
     @DeleteMapping("/patient/delete/{id}")
-    public String deletePatient(@PathVariable("id") Long patientId){
+    public ResponseEntity<HttpStatus> deletePatient(@PathVariable("id") Long patientId){
         patientService.delete(patientId);
-        return "Delete Sukses";
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }

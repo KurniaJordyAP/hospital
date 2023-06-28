@@ -10,9 +10,13 @@ import java.util.List;
 
 @Repository
 public interface AppointmentRepository extends GenericRepository<Appointment>{
-    @Query(value = "SELECT a.appointment_id, a.patient_id, a.date, a.symptoms, a.start_time, a.end_time, a.appointment_status,a.doctor_id " +
-            "FROM trx_appointment a " +
-            "JOIN mst_doctor d ON a.doctor_id = d.doctor_id " +
-            "WHERE d.doctor_id = :doctorId and a.date=:date", nativeQuery = true)
-    List<Appointment> viewAppointmentByDoctorId(@Param("doctorId") Long doctorId,@Param("date") Date date);
+
+    //MENGGUNAKAN QUERY
+//    @Query(value = "SELECT a.appointment_id, a.patient_id, a.date, a.symptoms, a.start_time, a.end_time, a.doctor_id " +
+//            "FROM trx_appointment a " +
+//            "JOIN mst_doctor d ON a.doctor_id = d.doctor_id " +
+//            "WHERE d.doctor_id = :doctorId and a.date=:date", nativeQuery = true)
+//    List<Appointment> viewAppointmentByDoctorId(@Param("doctorId") Long doctorId,@Param("date") String date);
+
+    List<Appointment> findByDoctorDoctorIdAndDate(Long doctorId, String date);
 }

@@ -4,9 +4,11 @@ import id.co.indivara.miniproject.hospital.controller.SpecializationController;
 import id.co.indivara.miniproject.hospital.dto.request.AuthenticationRequest;
 import id.co.indivara.miniproject.hospital.dto.response.AuthenticationResponse;
 import id.co.indivara.miniproject.hospital.entity.Specialization;
+import id.co.indivara.miniproject.hospital.mapper.MapperConvertion;
 import id.co.indivara.miniproject.hospital.service.SpecializationService;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -17,6 +19,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.web.server.MediaTypeNotSupportedStatusException;
 
 
 import java.util.Objects;
@@ -70,5 +73,49 @@ public class SpecializationTest {
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$").exists())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.specializationId").isNotEmpty());
+    }
+
+    @Test
+    public void saveSpecializationTestMock() throws Exception{
+        Specialization specialization = new Specialization();
+        specialization.setSpecializationName("specialization1");
+        mockMvc.perform(MockMvcRequestBuilders
+                .post("/specialization/save")
+                .header("Authorization","Bearer " +jwt)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(MapperConvertion.toJson(specialization))
+        ).andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void updateSpecializationTestMock() throws Exception{
+        Specialization specialization = new Specialization();
+        specialization.setSpecializationName("specialization2");
+        mockMvc.perform(MockMvcRequestBuilders
+                .patch("/specialization/"+2)
+                .header("Authorization", "Bearer " +jwt)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content((MapperConvertion.toJson(specialization)))
+        ).andDo(result -> {
+            Specialization specializations = MapperConvertion.getData(result.getResponse().getContentAsString(), Specialization.class);
+            Assertions.assertNotNull(specializations);
+            Assertions.assertEquals("specialization2", specializations.getSpecializationName());
+        })
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.specializationId").isNotEmpty());
+    }
+
+    @Test
+    public void deleteSpecializationTestMock() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                        .delete("/specialization/delete/"+2)
+                        .header("Authorization", "Bearer " +jwt)
+                        .accept(MediaType.APPLICATION_JSON)
+                ).andDo(print())
+                .andExpect(status().isOk());
     }
 }

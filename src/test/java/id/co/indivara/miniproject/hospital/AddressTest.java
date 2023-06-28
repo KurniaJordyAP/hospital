@@ -5,10 +5,13 @@ import id.co.indivara.miniproject.hospital.controller.AuthenticationController;
 import id.co.indivara.miniproject.hospital.dto.request.AuthenticationRequest;
 import id.co.indivara.miniproject.hospital.dto.response.AuthenticationResponse;
 import id.co.indivara.miniproject.hospital.entity.Address;
+import id.co.indivara.miniproject.hospital.entity.Treatment;
+import id.co.indivara.miniproject.hospital.mapper.MapperConvertion;
 import id.co.indivara.miniproject.hospital.repo.AddressRepository;
 import id.co.indivara.miniproject.hospital.service.AddressService;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -75,5 +78,55 @@ public class AddressTest {
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$").exists())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.addressId").isNotEmpty());
+    }
+
+    @Test
+    public void saveAddressTestMock() throws Exception {
+        Address address = new Address();
+        address.setStreet("street1");
+        address.setCity("city1");
+        address.setProvince("province1");
+        address.setZip("zip1");
+        mockMvc.perform(MockMvcRequestBuilders
+                .post("/address/save")
+                .header("Authorization", "Bearer " +jwt)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(MapperConvertion.toJson(address))
+        ).andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void updateAddressTestMock() throws Exception {
+        Address address = addressService.findById(5L);
+        address.setStreet("street2");
+        address.setCity("city2");
+        address.setProvince("province2");
+        address.setZip("zip2");
+        mockMvc.perform(MockMvcRequestBuilders
+                .patch("/address/"+5)
+                .header("Authorization", "Bearer " +jwt)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content((MapperConvertion.toJson(address)))
+        ).andDo(result -> {
+            Address addresses = MapperConvertion.getData(result.getResponse().getContentAsString(), Address.class);
+            Assertions.assertNotNull(addresses);
+            Assertions.assertEquals(addresses.getStreet(), address.getStreet());
+        })
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.addressId").isNotEmpty());
+    }
+
+    @Test
+    public void deleteAddressTestMock() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders
+                .delete("/address/delete/"+5)
+                .header("Authorization", "Bearer " +jwt)
+                .accept(MediaType.APPLICATION_JSON)
+        ).andDo(print())
+                .andExpect(status().isOk());
     }
 }

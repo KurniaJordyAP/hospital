@@ -14,7 +14,7 @@ public class ResponsePatientMedicalRecord {
     @JsonProperty("medical_record_id")
     private Long medicalRecordId;
     @JsonProperty("date")
-    private Date date;
+    private String date;
     @JsonProperty("doctor_name")
     private String doctorName;
     @JsonProperty("patient_name")
